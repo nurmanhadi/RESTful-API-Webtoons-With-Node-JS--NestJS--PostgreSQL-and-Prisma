@@ -1,85 +1,73 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# RESTful API Webtoon dengan Node.js, NestJS, PostgreSQL, dan Prisma
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Proyek ini adalah sebuah RESTful API untuk aplikasi webtoon yang dibangun menggunakan **Node.js**, **NestJS**, **Prisma**, dan **PostgreSQL**. API ini menyediakan berbagai fitur, termasuk manajemen pengguna, komik, bab (chapters), dan gambar, serta mengimplementasikan otentikasi dan otorisasi menggunakan **OAuth0** dengan **JWT**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Fitur Utama
 
-## Description
+- **Manajemen Pengguna:** Pendaftaran, autentikasi, dan otorisasi pengguna dengan OAuth0 dan JWT.
+- **Manajemen Komik:** CRUD (Create, Read, Update, Delete) komik, termasuk detail dan informasi komik.
+- **Manajemen Chapters:** CRUD untuk bab komik yang terhubung dengan komik tertentu.
+- **Manajemen Gambar:** Penyimpanan dan pengelolaan gambar terkait dengan bab komik.
+- **Otentikasi:** Menggunakan OAuth0 dan JWT untuk memastikan keamanan akses data.
+- **Logging:** Integrasi dengan **Winston** untuk logging dan pemantauan aktivitas aplikasi secara real-time.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Teknologi yang Digunakan
 
-## Project setup
+- **Node.js:** Runtime JavaScript untuk server-side.
+- **NestJS:** Framework untuk membangun aplikasi backend yang modular dan terstruktur.
+- **Prisma:** ORM (Object-Relational Mapping) untuk memudahkan interaksi dengan database PostgreSQL.
+- **PostgreSQL:** Database relasional untuk penyimpanan data.
+- **Winston:** Digunakan untuk logging aplikasi.
+- **OAuth0 & JWT:** Untuk autentikasi dan otorisasi.
 
-```bash
-$ npm install
-```
+## Persyaratan
 
-## Compile and run the project
+- **Node.js:** v16.x atau lebih baru
+- **PostgreSQL:** v13.x atau lebih baru
+- **Prisma:** v4.x atau lebih baru
+- **NestJS CLI:** v9.x atau lebih baru
 
-```bash
-# development
-$ npm run start
+## Cara Menginstal
 
-# watch mode
-$ npm run start:dev
+1. **Clone repository ini:**
 
-# production mode
-$ npm run start:prod
-```
+   ```bash
+   git clone https://github.com/nurmanhadi/RESTful-API-Webtoons-With-Node-JS--NestJS--PostgreSQL-and-Prisma.git
 
-## Run tests
+2. **Masuk ke direktori proyek:**
 
-```bash
-# unit tests
-$ npm run test
+   ```bash
+   cd Sinikomik
 
-# e2e tests
-$ npm run test:e2e
+3. **Install dependencies:**
 
-# test coverage
-$ npm run test:cov
-```
+   ```bash
+   npm install
 
-## Resources
+4. **Konfigurasi database:**
 
-Check out a few resources that may come in handy when working with NestJS:
+   - Ubah file .env dengan konfigurasi database PostgreSQL Anda.
+   - Jalankan migrasi Prisma untuk membuat skema database.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+   ```bash
+   npx prisma migrate dev
 
-## Support
+5. **Jalankan aplikasi:**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   ```bash
+   npm run start
 
-## Stay in touch
+## Dokumentasi API
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Dokumentasi lengkap API dapat diakses melalui endpoint src/doc setelah menjalankan aplikasi.
 
-## License
+## Logging
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Aplikasi ini menggunakan Winston untuk logging, yang mencakup:
+
+- Log aktivitas pengguna.
+- Log kesalahan dan error handling.
+
+## Lisensi
+
+Proyek ini menggunakan [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE). Lihat file LICENSE untuk informasi lebih lanjut.
