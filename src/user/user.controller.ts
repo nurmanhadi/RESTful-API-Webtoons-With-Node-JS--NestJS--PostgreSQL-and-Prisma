@@ -2,9 +2,10 @@ import { Body, Controller, HttpCode, Post, Res, UseGuards } from "@nestjs/common
 import { UserService } from "./user.service";
 import { WebResponse } from "src/model/web.model";
 import { RegisterUserRequest, UserResponse } from "src/model/user.model";
-import { Response } from "express";
 import { AuthGuard } from "src/auth/auth.guard";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('users')
 @Controller("api/users")
 export class UserController{
     constructor(

@@ -5,12 +5,14 @@ import { Logger } from "winston";
 import { ChapterCreateRequest, ChapterResponse, ChapterUpdateRequest } from "src/model/chapter.model";
 import { ValidationService } from "src/common/validation.service";
 import { ChapterValidation } from "./chapter.validation";
+import { KomikRepository } from "src/komik/komik.repository";
 
 @Injectable()
 export class ChapterService {
     constructor(
         @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
         private readonly chapterRepository: ChapterRepository,
+        private readonly komikRepository: KomikRepository,
         private validationService: ValidationService
     ){}
 
@@ -43,6 +45,11 @@ export class ChapterService {
 
     async update(req: ChapterUpdateRequest): Promise<ChapterResponse>{
         const updateRequest: ChapterUpdateRequest = await this.validationService.validate(ChapterValidation.UPDATE, req)
+
+        const checkKomik = await this.komikRepository.count(req.comikId)
+        if(checkKomik == 0){
+            throw new HttpException('komik not found', 404)
+        }
 
         const checkChapter = await this.chapterRepository.count(updateRequest.chapter)
         if(checkChapter != 0){

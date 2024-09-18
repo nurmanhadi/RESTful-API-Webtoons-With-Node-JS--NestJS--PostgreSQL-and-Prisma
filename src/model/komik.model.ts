@@ -9,13 +9,15 @@ export class KomikResponse {
 }
 
 export class KomikCreateRequest {
+    avatar: string
     title: string
     author: string
     description?: string
 }
 export class KomikUpdateRequest {
-    title: string
-    author: string
+    avatar?: string
+    title?: string
+    author?: string
     description?: string
     updatedAt?: Date
 }

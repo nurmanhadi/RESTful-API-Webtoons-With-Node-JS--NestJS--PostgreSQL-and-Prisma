@@ -22,6 +22,7 @@ model User {
 
 model Comic {
   id          Int       @id @default(autoincrement())
+  avatar      String?   @db.VarChar(255)
   title       String    @db.VarChar(100)
   author      String    @db.VarChar(100)
   description String?   @db.Text()

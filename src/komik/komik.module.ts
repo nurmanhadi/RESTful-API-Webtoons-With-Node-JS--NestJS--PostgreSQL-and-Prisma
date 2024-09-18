@@ -5,7 +5,7 @@ import { KomikService } from './komik.service';
 
 @Module({
     controllers:[KomikController],
-    providers: [KomikRepository, KomikService]
-    expports: [KomikService]
+    providers: [KomikRepository, KomikService],
+    exports: [KomikRepository]
 })
 export class KomikModule {}

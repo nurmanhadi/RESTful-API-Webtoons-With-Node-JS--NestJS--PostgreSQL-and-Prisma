@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, ParseIntPipe, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ChapterService } from "./chapter.service";
 import { WebResponse } from "src/model/web.model";
 import { ChapterCreateRequest, ChapterResponse, ChapterUpdateRequest } from "src/model/chapter.model";
 import { AuthGuard } from "src/auth/auth.guard";
 import { Logger } from "winston";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('chapters')
 @Controller('api/komiks')
 export class ChapterController {
     constructor(

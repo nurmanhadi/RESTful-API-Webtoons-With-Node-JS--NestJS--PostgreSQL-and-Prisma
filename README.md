@@ -59,7 +59,7 @@ Proyek ini adalah sebuah RESTful API untuk aplikasi webtoon yang dibangun menggu
 
 ## Dokumentasi API
 
-Dokumentasi lengkap API dapat diakses melalui endpoint src/doc setelah menjalankan aplikasi.
+Dokumentasi lengkap API dapat diakses melalui endpoint /api setelah menjalankan aplikasi.
 
 ## Logging
 
