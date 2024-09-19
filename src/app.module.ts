@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { KomikModule } from './komik/komik.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ChapterModule } from './chapter/chapter.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ChapterModule } from './chapter/chapter.module';
     limit: 1000
   }]),
     ChapterModule,
+    ImageModule,
 ],
 })
 export class AppModule {}

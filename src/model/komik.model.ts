@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger"
 
 export class KomikResponse {
     id?: number
@@ -9,16 +10,25 @@ export class KomikResponse {
 }
 
 export class KomikCreateRequest {
+    @ApiProperty()
     avatar: string
+    @ApiProperty()
     title: string
+    @ApiProperty()
     author: string
+    @ApiProperty()
     description?: string
 }
 export class KomikUpdateRequest {
+    @ApiProperty()
     avatar?: string
+    @ApiProperty()
     title?: string
+    @ApiProperty()
     author?: string
+    @ApiProperty()
     description?: string
+    @ApiProperty()
     updatedAt?: Date
 }
 

@@ -3,7 +3,7 @@ import { UserService } from "./user.service";
 import { WebResponse } from "src/model/web.model";
 import { RegisterUserRequest, UserResponse } from "src/model/user.model";
 import { AuthGuard } from "src/auth/auth.guard";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('users')
 @Controller("api/users")
@@ -34,6 +34,10 @@ export class UserController{
     }
     
     @Post("/logout")
+    @ApiHeader({
+        name: 'Authorization',
+        description: 'accessToken'
+    })
     @HttpCode(200)
     @UseGuards(AuthGuard)
     async logout(): Promise<WebResponse<boolean>>{
