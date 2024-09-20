@@ -7,7 +7,6 @@ import { ImageCreateRequest, ImageResponse } from "src/model/image.model";
 import { ImageValidation } from "./image.validation";
 import { KomikRepository } from "src/komik/komik.repository";
 import { ChapterRepository } from "src/chapter/chapter.repository";
-import { Express } from "express";
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -40,11 +39,31 @@ export class ImageService {
         const destination = path.join(chapterFolderPath, fileName)
         await fs.promises.writeFile(destination, img.buffer)
 
+        req.currentChapter = chapter.chapter
         req.chapterId = chapter.id
         req.url = fileName
         const imageRequest: ImageCreateRequest = await this.validationService.validate(ImageValidation.CREATE, req)
 
         const image = await this.imageRepository.createImage(imageRequest)
         return image
+    }
+
+    async delete(komikId: number, chap: number): Promise<boolean> {
+        const komik = await this.komikRepository.findUnique(komikId)
+        if(!komik) {
+            throw new HttpException('komik not found', 404)
+        }
+        
+        const chapter = await this.chapterRepository.findFirst(komikId, chap)
+        if(!chapter){
+            throw new HttpException('chapter not found', 404)
+        }
+
+        const komikFolderPath = path.join('public','komiks', komik.title)
+        const chapterFolderPath = path.join(komikFolderPath, chapter.chapter.toString())
+        fs.rmSync(chapterFolderPath, {recursive: true})
+
+        await this.imageRepository.deleteImage(chapter.id, chapter.chapter)
+        return true
     }
 }

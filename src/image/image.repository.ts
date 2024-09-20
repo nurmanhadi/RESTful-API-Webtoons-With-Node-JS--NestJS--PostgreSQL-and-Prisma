@@ -14,4 +14,13 @@ export class ImageRepository {
             data: req
         })
     }
+
+    async deleteImage(chapterId: number, currentChapter: number): Promise<void> {
+        await this.prismaService.image.deleteMany({
+            where:{
+                chapterId: chapterId,
+                currentChapter: currentChapter
+            }
+        })
+    }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Param, ParseIntPipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, HttpCode, Param, ParseIntPipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ImageService } from "./image.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { WebResponse } from "src/model/web.model";
@@ -30,6 +30,22 @@ export class ImageController {
             statusCode: 201,
             message: 'create image success',
             data: image
+        }
+    }
+
+    @Delete()
+    @HttpCode(200)
+    @UseGuards(AuthGuard)
+    @ApiHeader({name: 'Authorization', description: 'accessToken'})
+    async delete(
+        @Param('komikId', ParseIntPipe) komikId: number,
+        @Param('chapter', ParseIntPipe) chapter: number,
+    ): Promise<WebResponse<boolean>> {
+        await this.imageService.delete(komikId, chapter)
+        return {
+            statusCode: 200,
+            message: 'delete image success',
+            data: true
         }
     }
 
