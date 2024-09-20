@@ -46,12 +46,11 @@ model Chapter {
 }
 
 model Image {
-  id         Int       @id @default(autoincrement())
-  chapterId  Int       @db.Integer
-  url        String    @db.VarChar(100)
-  pageNumber Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  id        Int       @id @default(autoincrement())
+  chapterId Int       @db.Integer
+  url       String    @db.VarChar(100)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   chapter Chapter @relation(fields: [chapterId], references: [id])
 

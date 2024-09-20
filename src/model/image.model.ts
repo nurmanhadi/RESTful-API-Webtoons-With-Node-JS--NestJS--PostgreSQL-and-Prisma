@@ -1,10 +1,10 @@
+import { ParseIntPipe } from "@nestjs/common"
 import { ApiProperty } from "@nestjs/swagger"
 
 export class ImageResponse{
     id: number
     chapterId: number
     url: string
-    pageNumber: number
     createdAt: Date
     updatedAt: Date
 }
@@ -14,6 +14,4 @@ export class ImageCreateRequest{
     chapterId: number
     @ApiProperty()
     url: string
-    @ApiProperty()
-    pageNumber: number
 }

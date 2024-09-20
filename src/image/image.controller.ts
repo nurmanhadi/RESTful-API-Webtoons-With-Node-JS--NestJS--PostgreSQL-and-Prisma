@@ -8,7 +8,7 @@ import { Express } from "express";
 import { ApiConsumes, ApiHeader, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('images')
-@Controller('api/komiks/:komikId/chapters/:chapterId/images')
+@Controller('api/komiks/:komikId/chapters/:chapter/images')
 export class ImageController {
     constructor(private imageService: ImageService){}
 
@@ -20,12 +20,12 @@ export class ImageController {
     @UseInterceptors(FileInterceptor('image'))
     async create(
         @Param('komikId', ParseIntPipe) komikId: number,
-        @Param('chapterId', ParseIntPipe) chapterId: number,
+        @Param('chapter', ParseIntPipe) chapter: number,
         @Body() req: ImageCreateRequest,
         @UploadedFile() img: Express.Multer.File
     ): Promise<WebResponse<ImageResponse>>{
 
-        const image = await this.imageService.create(komikId, chapterId, req, img)
+        const image = await this.imageService.create(komikId, chapter, req, img)
         return {
             statusCode: 201,
             message: 'create image success',

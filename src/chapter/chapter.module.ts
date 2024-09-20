@@ -7,6 +7,7 @@ import { KomikModule } from 'src/komik/komik.module';
 @Module({
     imports: [KomikModule],
     controllers: [ChapterController],
-    providers: [ChapterService, ChapterRepository]
+    providers: [ChapterService, ChapterRepository],
+    exports: [ChapterRepository],
 })
 export class ChapterModule {}

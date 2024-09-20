@@ -15,18 +15,26 @@ export class ChapterRepository {
         })
     }
 
-    async findFirst(chap: number): Promise<Chapter> {
+    async findFirst(komikId: number, chapter: number): Promise<Chapter> {
         return this.prismaService.chapter.findFirst({
             where:{
-                chapter: chap
+                comikId: komikId,
+                chapter: chapter,
             }
         })
     }
 
-    async count(chapter: number): Promise<number> {
+    async checkChapter(chapter: number): Promise<number> {
         return this.prismaService.chapter.count({
             where:{
                 chapter: chapter
+            }
+        })
+    }
+    async checkChapterId(chapterId: number): Promise<number> {
+        return this.prismaService.chapter.count({
+            where:{
+                id: chapterId
             }
         })
     }

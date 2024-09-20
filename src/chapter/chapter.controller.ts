@@ -31,9 +31,10 @@ export class ChapterController {
     @Get("/:komikId/chapters/:chapter")
     @HttpCode(200)
     async findFirst(
+        @Param('komikId', ParseIntPipe) komikId: number,
         @Param('chapter', ParseIntPipe) chap: number,
     ): Promise<WebResponse<ChapterResponse>>{
-        const chapter = await this.chapterService.findFirst(chap)
+        const chapter = await this.chapterService.findFirst(komikId, chap)
         return {
             statusCode: 200,
             message: 'get chapter success',

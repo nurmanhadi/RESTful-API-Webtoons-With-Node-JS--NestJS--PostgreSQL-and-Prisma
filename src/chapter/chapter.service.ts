@@ -21,8 +21,8 @@ export class ChapterService {
         return chapter
     }
 
-    async findFirst(chap: number): Promise<ChapterResponse>{
-        const chapter = await this.chapterRepository.findFirst(chap)
+    async findFirst(komikId: number, chap: number): Promise<ChapterResponse>{
+        const chapter = await this.chapterRepository.findFirst(komikId, chap)
         if(!chapter){
             throw new HttpException('chapter not found', 404)
         }
@@ -34,7 +34,7 @@ export class ChapterService {
 
         const createRequest: ChapterCreateRequest = await this.validationService.validate(ChapterValidation.CREATE, req)
 
-        const checkChapter = await this.chapterRepository.count(createRequest.chapter)
+        const checkChapter = await this.chapterRepository.checkChapter(createRequest.chapter)
         if(checkChapter != 0){
             throw new HttpException('chapter already exist', 400)
         }
@@ -47,11 +47,15 @@ export class ChapterService {
         const updateRequest: ChapterUpdateRequest = await this.validationService.validate(ChapterValidation.UPDATE, req)
 
         const checkKomik = await this.komikRepository.count(req.comikId)
-        if(checkKomik == 0){
+        if(checkKomik === 0){
             throw new HttpException('komik not found', 404)
         }
 
-        const checkChapter = await this.chapterRepository.count(updateRequest.chapter)
+        const checkChapterId = await this.chapterRepository.checkChapterId(updateRequest.id)
+        if(checkChapterId === 0){
+            throw new HttpException('chapter not found', 404)
+        }
+        const checkChapter = await this.chapterRepository.checkChapter(updateRequest.chapter)
         if(checkChapter != 0){
             throw new HttpException('chapter already exist', 400)
         }
