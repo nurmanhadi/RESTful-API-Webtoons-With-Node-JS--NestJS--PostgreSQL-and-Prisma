@@ -8,7 +8,4 @@ export class AuthService{
     async generateAccessToken(payload: any){
         return this.jwtService.signAsync(payload, {expiresIn:'15m'})
     }
-    async generateRefreshToken(payload: any){
-        return this.jwtService.signAsync(payload, {expiresIn:'7d'})
-    }
 }

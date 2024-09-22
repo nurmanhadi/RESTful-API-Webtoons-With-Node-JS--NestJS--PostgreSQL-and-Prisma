@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, HttpException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
         const request = context.switchToHttp().getRequest()
         const token = this.extractTokenFromHeader(request)
         if(!token){
-            throw new UnauthorizedException()
+            throw new HttpException('token null', 401)
         }
         try{
             const payload = await this.jwtService.verifyAsync(
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
             )
             request['user'] = payload
         }catch{
-            throw new UnauthorizedException()
+            throw new HttpException('token has expired', 401)
         }
         return true
     }

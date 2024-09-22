@@ -1,4 +1,4 @@
-import { HttpException, Inject, Injectable } from "@nestjs/common";
+import { HttpException, Inject, Injectable, Req, Res } from "@nestjs/common";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { ValidationService } from "src/common/validation.service";
 import { LoginUserRequest, RegisterUserRequest, UserResponse } from "src/model/user.model";
@@ -7,6 +7,8 @@ import { UserValidation } from "./user.validation";
 import * as bcrypt from "bcrypt"
 import { AuthService } from "src/auth/auth.service";
 import { UserRepository } from "./user.repository";
+import { v4 } from "uuid";
+import { Request, Response } from "express";
 
 @Injectable()
 export class UserService {
@@ -56,7 +58,36 @@ export class UserService {
         }
     }
 
-    async logout(): Promise<boolean> {
+    async logout(userEmail: string): Promise<boolean> {
+        await this.userRepository.deleteRefreshToken(userEmail)
         return true
+    }
+
+    async refreshAccessToken(@Req() req: Request): Promise<UserResponse> {
+        const refreshToken = req.cookies['refreshToken']
+        if(!refreshToken){
+            throw new HttpException('no refresh token provided', 401)
+        }
+
+        const tokenRecord = await this.userRepository.findRefreshToken(refreshToken)
+        if(!tokenRecord || tokenRecord.revoked || tokenRecord.expiresAt < new Date()) {
+            throw new HttpException('invalid or expired refresh token', 401)
+        }
+
+        const payload = {email: tokenRecord.userEmail}
+        const newAccessToken = await this.authService.generateAccessToken(payload)
+        return {
+            access_token: newAccessToken
+        }
+    }
+    async createRefreshToken(email: string): Promise<string> {
+
+        const refreshToken = v4()
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7);
+
+        const token = await this.userRepository.refreshToken(email, refreshToken, expiresAt)
+
+        return token.token
     }
 }

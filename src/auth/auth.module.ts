@@ -1,8 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth.guard';
 
 @Global()
 @Module({

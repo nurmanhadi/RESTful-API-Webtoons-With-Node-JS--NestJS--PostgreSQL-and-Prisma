@@ -1,9 +1,10 @@
-import { Body, Controller, HttpCode, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Header, HttpCode, HttpException, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { WebResponse } from "src/model/web.model";
 import { RegisterUserRequest, UserResponse } from "src/model/user.model";
 import { AuthGuard } from "src/auth/auth.guard";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
+import { Request, Response } from "express";
 
 @ApiTags('users')
 @Controller("api/users")
@@ -24,13 +25,24 @@ export class UserController{
     }
     @Post("/login")
     @HttpCode(200)
-    async login(@Body() req: RegisterUserRequest): Promise<WebResponse<UserResponse>>{
+    async login(@Body() req: RegisterUserRequest, @Res() res: Response) {
         const result = await this.userService.login(req)
-        return {
-            statusCode: 200,
-            message: "login user succes",
-            data: result
-        }
+        const refreshToken = await this.userService.createRefreshToken(result.email)
+        
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day
+        })
+
+        return res.json(
+            {
+                statusCode: 200,
+                message: "login user succes",
+                data: result
+            }
+        )
     }
     
     @Post("/logout")
@@ -40,12 +52,38 @@ export class UserController{
     })
     @HttpCode(200)
     @UseGuards(AuthGuard)
-    async logout(): Promise<WebResponse<boolean>>{
-        const result = await this.userService.logout()
+    async logout(
+        @Req() req: Request,
+        @Res() res: Response,
+    ){
+        const userEmail = req['user'].email
+        const result = await this.userService.logout(userEmail)
+
+        res.cookie('refreshToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        })
+
+        return res.json (
+            {
+                statusCode: 200,
+                message: 'logout user success',
+                data: result
+            }
+        )
+    }
+
+    @Post('/refresh-token')
+    @HttpCode(200)
+    async refreshAccessToken(@Req() req: Request): Promise<WebResponse<UserResponse>>{
+        const token = await this.userService.refreshAccessToken(req)
         return {
             statusCode: 200,
-            message: 'logout user success',
-            data: result
+            message: 'generate new access token success',
+            data: token
+
         }
     }
+
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger"
 
 export class UserResponse{
-    email: string
+    email?: string
     access_token?: string
 }
 export class RegisterUserRequest {
